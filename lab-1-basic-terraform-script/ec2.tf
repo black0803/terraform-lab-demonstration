@@ -27,16 +27,9 @@ user_data_base64 = base64encode(<<-EOF
     dnf install -y jq
 
     # Install kubectl (latest version)
-    curl -LO "https://dl.k8s.io/release/$$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl"
+    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl"
     chmod +x kubectl
     mv kubectl /usr/local/bin/
-
-    # Install terraform (latest version)
-    TERRAFORM_VERSION=$$(curl -s https://api.github.com/repos/hashicorp/terraform/releases/latest | grep -oP '"tag_name": "\K[^"]*' | sed 's/v//')
-    wget https://releases.hashicorp.com/terraform/$${TERRAFORM_VERSION}/terraform_$${TERRAFORM_VERSION}_linux_arm64.zip
-    unzip terraform_$${TERRAFORM_VERSION}_linux_arm64.zip
-    mv terraform /usr/local/bin/
-    rm terraform_$${TERRAFORM_VERSION}_linux_arm64.zip
 
     # Verify installations
     kubectl version --client
