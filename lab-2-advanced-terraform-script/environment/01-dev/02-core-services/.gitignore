@@ -1,0 +1,29 @@
+# 1. Local execution folders (Plugin binaries)
+# These are downloaded during 'terraform init' and are platform-specific.
+.terraform/
+
+# 2. Local state files 
+# NEVER commit these to Git. They may contain secrets in plain text 
+# and will cause conflicts with your teammates.
+*.tfstate
+*.tfstate.*
+
+# 3. Crash logs
+crash.log
+crash.*.log
+
+# 4. Variable files (The "Secret" files)
+# These often contain passwords, API keys, or environment-specific data.
+*.tfvars
+*.tfvars.json
+
+# 5. Override files
+# Used for local testing without modifying the main code.
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# 6. CLI Configuration files
+.terraformrc
+terraform.rc
