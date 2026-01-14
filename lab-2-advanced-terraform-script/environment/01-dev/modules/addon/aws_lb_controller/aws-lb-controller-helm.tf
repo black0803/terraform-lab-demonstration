@@ -14,8 +14,8 @@ resource "helm_release" "aws_load_balancer_controller" {
       value = var.cluster_name
     },
     {
-      name  = "serviceAccount.create"
-      value = "false"
+      name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
+      value = "${var.iam_role_arn}" # last progress here
     },
     {
       name  = "serviceAccount.name"
