@@ -33,7 +33,7 @@ variable "node_groups" {
     instance_types = list(string)
     disk_size      = number
     labels         = optional(map(string))
-    ami_type      = optional(string)
+    ami_type       = optional(string)
     taints = optional(map(object({
       value  = string
       effect = string
@@ -72,5 +72,5 @@ variable "create_role" {
 
 variable "vpc_id" {
   description = "vPC ID used by EKS"
-  type = string
+  type        = string
 }

@@ -6,8 +6,8 @@ resource "aws_eks_node_group" "node_group" {
   subnet_ids      = var.subnet_ids
   instance_types  = var.instance_types
   disk_size       = var.disk_size
-  labels = var.labels
-  tags = var.tags
+  labels          = var.labels
+  tags            = var.tags
 
   dynamic "taint" {
     for_each = var.taints != null ? var.taints : {}
@@ -25,9 +25,9 @@ resource "aws_eks_node_group" "node_group" {
   }
 
   update_config {
-    max_unavailable = var.update_config.max_unavailable
+    max_unavailable            = var.update_config.max_unavailable
     max_unavailable_percentage = var.update_config.max_unavailable_percentage
-    update_strategy = var.update_config.update_strategy
+    update_strategy            = var.update_config.update_strategy
   }
-  
+
 }

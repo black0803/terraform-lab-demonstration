@@ -8,18 +8,18 @@ resource "helm_release" "aws_load_balancer_controller" {
   namespace  = "kube-system"
   version    = var.chart_version
 
-  set =[
+  set = [
     {
-        name  = "clusterName"
-        value = var.cluster_name
+      name  = "clusterName"
+      value = var.cluster_name
     },
     {
-        name  = "serviceAccount.create"
-        value = "false"
+      name  = "serviceAccount.create"
+      value = "false"
     },
     {
-        name  = "serviceAccount.name"
-        value = "aws-load-balancer-controller"
+      name  = "serviceAccount.name"
+      value = "aws-load-balancer-controller"
     }
   ]
 }

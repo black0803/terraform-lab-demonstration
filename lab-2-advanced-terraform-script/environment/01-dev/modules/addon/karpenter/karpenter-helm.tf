@@ -11,80 +11,80 @@
 #   --wait
 
 resource "helm_release" "karpenter_crd" {
-  namespace           = "karpenter"
-  name                = "karpenter-crd"
-  repository          = "oci://public.ecr.aws/karpenter"
-  chart               = "karpenter-crd"
-  version             = var.karpenter_version
-  wait                = false
+  namespace  = "karpenter"
+  name       = "karpenter-crd"
+  repository = "oci://public.ecr.aws/karpenter"
+  chart      = "karpenter-crd"
+  version    = var.karpenter_version
+  wait       = false
 
-  set =[
+  set = [
     {
-        name  = "webhook.enabled"
-        value = "true"
+      name  = "webhook.enabled"
+      value = "true"
     },
     {
-        name  = "webhook.serviceName"
-        value = "karpenter"
+      name  = "webhook.serviceName"
+      value = "karpenter"
     },
     {
-        name  = "webhook.port"
-        value = "8443"
+      name  = "webhook.port"
+      value = "8443"
     }
   ]
 }
 resource "helm_release" "karpenter" {
-  namespace           = "karpenter"
-  name                = "karpenter"
-  repository          = "oci://public.ecr.aws/karpenter"
-  chart               = "karpenter"
-  version             = var.karpenter_version
-  wait                = false
+  namespace  = "karpenter"
+  name       = "karpenter"
+  repository = "oci://public.ecr.aws/karpenter"
+  chart      = "karpenter"
+  version    = var.karpenter_version
+  wait       = false
 
   set = [
-  {
-    name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-    value = "arn:aws:iam::211125502617:role/loena-Prod-karpenter-controller-role"
-  },
-  {
-    name  = "webhook.enabled"
-    value = "true"
-  },
-  {
-    name  = "webhook.port"
-    value = "8443"
-  },
-  {
-    name  = "nodeSelector.karpenter\\.sh/controller"
-    value = "true"
-  },
-  {
-    name  = "tolerations[0].key"
-    value = "CriticalAddonsOnly"
-  },
-  {
-    name  = "tolerations[0].operator"
-    value = "Exists"
-  },
-  {
-    name  = "tolerations[1].key"
-    value = "karpenter.sh/controller"
-  },
-  {
-    name  = "tolerations[1].operator"
-    value = "Exists"
-  },
-  {
-    name  = "tolerations[1].effect"
-    value = "NoSchedule"
-  },
-  {
-    name  = "settings.clusterName"
-    value = data.aws_eks_cluster.cluster.id
-  },
-  {
-    name  = "settings.clusterEndpoint"
-    value = data.aws_eks_cluster.cluster.endpoint
-  }
-]
+    {
+      name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
+      value = "arn:aws:iam::211125502617:role/loena-Prod-karpenter-controller-role"
+    },
+    {
+      name  = "webhook.enabled"
+      value = "true"
+    },
+    {
+      name  = "webhook.port"
+      value = "8443"
+    },
+    {
+      name  = "nodeSelector.karpenter\\.sh/controller"
+      value = "true"
+    },
+    {
+      name  = "tolerations[0].key"
+      value = "CriticalAddonsOnly"
+    },
+    {
+      name  = "tolerations[0].operator"
+      value = "Exists"
+    },
+    {
+      name  = "tolerations[1].key"
+      value = "karpenter.sh/controller"
+    },
+    {
+      name  = "tolerations[1].operator"
+      value = "Exists"
+    },
+    {
+      name  = "tolerations[1].effect"
+      value = "NoSchedule"
+    },
+    {
+      name  = "settings.clusterName"
+      value = data.aws_eks_cluster.cluster.id
+    },
+    {
+      name  = "settings.clusterEndpoint"
+      value = data.aws_eks_cluster.cluster.endpoint
+    }
+  ]
 }

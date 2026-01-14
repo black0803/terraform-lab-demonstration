@@ -59,5 +59,5 @@ variable "additional_policy_arns" {
 
 variable "vpc_id" {
   description = "vPC ID used by EKS"
-  type = string
+  type        = string
 }

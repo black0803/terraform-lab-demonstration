@@ -1,14 +1,14 @@
 variable "prefix" {
   default = ""
-  type = string
+  type    = string
 }
 
 variable "policy_arns" {
   default = []
-  type = list(string)
+  type    = list(string)
 }
 
 variable "tags" {
   default = {}
-  type = map(string)
+  type    = map(string)
 }

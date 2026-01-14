@@ -1,21 +1,21 @@
 resource "aws_instance" "bastion_instance" {
-  ami           = "ami-078462934228fde0e"
-  instance_type = "t4g.small"
+  ami                  = "ami-078462934228fde0e"
+  instance_type        = "t4g.small"
   iam_instance_profile = aws_iam_instance_profile.bastion_profile.name
-  subnet_id = local.subnet_id
+  subnet_id            = local.subnet_id
   root_block_device {
     volume_size = 30
     volume_type = "gp3"
-    iops = 3000
-    throughput = 125
-    encrypted = true
+    iops        = 3000
+    throughput  = 125
+    encrypted   = true
   }
   metadata_options {
-    http_endpoint = "enabled"
-    http_tokens   = "required"
+    http_endpoint               = "enabled"
+    http_tokens                 = "required"
     http_put_response_hop_limit = 1
   }
-user_data_base64 = base64encode(<<-EOF
+  user_data_base64 = base64encode(<<-EOF
     #!/bin/bash
     set -e
 
@@ -34,12 +34,11 @@ user_data_base64 = base64encode(<<-EOF
     # Verify installations
     kubectl version --client
     jq --version
-    terraform version
     EOF
-)
+  )
 
-  tags = merge(local.tags, {Name = "${local.prefix}-bastion"})
-  depends_on = [ aws_iam_role_policy_attachment.bastion_role_ssm_policy_attachment ]
+  tags       = merge(local.tags, { Name = "${local.prefix}-bastion" })
+  depends_on = [aws_iam_role_policy_attachment.bastion_role_ssm_policy_attachment]
 }
 
 resource "aws_iam_role" "bastion_role" {

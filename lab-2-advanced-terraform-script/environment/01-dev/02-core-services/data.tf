@@ -1,8 +1,8 @@
-data "aws_vpc" "vpc"{
-    filter {
-        name   = "tag:ResourceID"
-        values = ["msi-labs"]
-    }
+data "aws_vpc" "vpc" {
+  filter {
+    name   = "tag:ResourceID"
+    values = ["msi-labs"]
+  }
 }
 
 data "aws_subnets" "private_subnets" {

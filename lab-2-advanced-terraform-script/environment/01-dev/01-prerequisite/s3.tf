@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "terraform_bucket" {
   bucket = "${local.prefix}-terraform-state-bucket"
-  tags = local.tags
+  tags   = local.tags
 }
 
 resource "aws_s3_bucket_versioning" "versioning" {

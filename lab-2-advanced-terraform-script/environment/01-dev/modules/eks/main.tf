@@ -1,7 +1,7 @@
 module "control_plane" {
   source = "../../../../modules/dev/eks_cluster"
 
-  cluster_name = "${var.prefix}-eks"
+  cluster_name    = "${var.prefix}-eks"
   kubeapi_version = var.kubeapi_version
   vpc_config = {
     subnet_ids              = var.vpc_config.subnet_ids
@@ -14,26 +14,26 @@ module "control_plane" {
 }
 
 module "node_groups" {
-    for_each = var.node_groups
-    source = "../../../../modules/dev/eks_nodegroup"
+  for_each = var.node_groups
+  source   = "../../../../modules/dev/eks_nodegroup"
 
-    node_group_name = each.key
-    cluster_name = module.control_plane.cluster_name
-    node_role_arn = module.node_iam_role[0].role_arn
-    subnet_ids = var.vpc_config.subnet_ids
-    instance_types = each.value.instance_types
-    ami_type = each.value.ami_type
-    disk_size = each.value.disk_size
-    labels = each.value.labels
-    tags = var.tags
-    taints = each.value.taints
-    scaling_config = each.value.scaling_config
-    update_config = each.value.update_config
+  node_group_name = each.key
+  cluster_name    = module.control_plane.cluster_name
+  node_role_arn   = module.node_iam_role[0].role_arn
+  subnet_ids      = var.vpc_config.subnet_ids
+  instance_types  = each.value.instance_types
+  ami_type        = each.value.ami_type
+  disk_size       = each.value.disk_size
+  labels          = each.value.labels
+  tags            = var.tags
+  taints          = each.value.taints
+  scaling_config  = each.value.scaling_config
+  update_config   = each.value.update_config
 }
 
 module "node_iam_role" {
   source = "../../../../modules/dev/ec2_iam_role"
-  count = var.create_role ? 1 : 0
+  count  = var.create_role ? 1 : 0
 
   prefix = "${module.control_plane.cluster_name}-node"
   policy_arns = concat([
@@ -45,27 +45,27 @@ module "node_iam_role" {
 }
 
 module "cluster_secondary_security_group" {
-    source = "../../../../modules/dev/security_group"
-    name = "${var.prefix}-eks-secondary-sg"
-    description = "Secondary security group for EKS cluster"
-    vpc_id = var.vpc_id
-    tags = var.tags
-    ingress_rules = {
-        https_all = {
-            from_port   = 443
-            to_port     = 443
-            protocol    = "tcp"
-            cidr_blocks = ["0.0.0.0/0"]
-            description = "Allow HTTPS access inbound"
-        }
+  source      = "../../../../modules/dev/security_group"
+  name        = "${var.prefix}-eks-secondary-sg"
+  description = "Secondary security group for EKS cluster"
+  vpc_id      = var.vpc_id
+  tags        = var.tags
+  ingress_rules = {
+    https_all = {
+      from_port   = 443
+      to_port     = 443
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+      description = "Allow HTTPS access inbound"
     }
-    egress_rules = {
-        outbound_all = {
-            from_port   = 0
-            to_port     = 0
-            protocol    = "-1"
-            cidr_blocks = ["0.0.0.0/0"]
-            description = "Allow all outbound traffic"
-        }
+  }
+  egress_rules = {
+    outbound_all = {
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+      description = "Allow all outbound traffic"
     }
+  }
 }
