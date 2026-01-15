@@ -8,3 +8,8 @@ variable "chart_version" {
   type        = string
   default     = "2.7.2"
 }
+
+variable "oidc_id" {
+  description = "The OIDC provider ID for the EKS cluster"
+  type        = string
+}

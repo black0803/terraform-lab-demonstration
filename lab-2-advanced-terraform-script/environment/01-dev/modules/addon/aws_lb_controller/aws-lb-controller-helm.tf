@@ -15,7 +15,7 @@ resource "helm_release" "aws_load_balancer_controller" {
     },
     {
       name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-      value = "${var.iam_role_arn}" # last progress here - https://github.com/aws/eks-charts/blob/master/stable/aws-load-balancer-controller/values.yaml
+      value = "${aws_iam_role.aws_load_balancer_controller_role.arn}" # last progress here - https://github.com/aws/eks-charts/blob/master/stable/aws-load-balancer-controller/values.yaml
     },
     {
       name  = "serviceAccount.name"
